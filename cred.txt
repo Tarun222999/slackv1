@@ -1,1 +1,4 @@
 supabase db paswd=3u39KrfP@sx2cQ6
+
+
+https://docs-qx6wony0a-supabase.vercel.app/docs

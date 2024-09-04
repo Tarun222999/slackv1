@@ -1,9 +1,12 @@
 "use client";
+import { registerWithEmail } from '@/actions/register-with-email';
 import Typography from '@/components/typography'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input';
+import { supabaseBrowserClient } from '@/supabase/supabaseClient';
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Provider } from '@supabase/supabase-js';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { BsSlack } from 'react-icons/bs'
@@ -28,7 +31,29 @@ function AuthPage() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values)
+        setIsAuthenticating(true);
+        const response = await registerWithEmail(values)
+        const { data, error } = JSON.parse(response)
+        setIsAuthenticating(false);
+        if (error) {
+            console.warn('Sign in error', error);
+            return;
+        }
+
     }
+
+
+    async function socialAuth(provider: Provider) {
+        setIsAuthenticating(true);
+        await supabaseBrowserClient.auth.signInWithOAuth({
+            provider,
+            options: {
+                redirectTo: `${location.origin}/auth/callback`,
+            }
+        });
+        setIsAuthenticating(false);
+    }
+
 
     return (
         <div className='min-h-screen p-5 grid text-center place-content-center bg-white'>
@@ -52,7 +77,11 @@ function AuthPage() {
 
 
                 <div className='flex flex-col space-y-4'>
-                    <Button variant='outline' disabled={isAuthenticating} className='py-6 border-2 flex space-x-3'>
+                    <Button variant='outline'
+                        disabled={isAuthenticating}
+                        className='py-6 border-2 flex space-x-3'
+                        onClick={() => socialAuth('google')}
+                    >
                         <FcGoogle size={30} />
                         <Typography
                             className='text-xl'
@@ -65,6 +94,7 @@ function AuthPage() {
                         variant='outline'
                         className='py-6 border-2 flex space-x-3'
                         disabled={isAuthenticating}
+                        onClick={() => socialAuth('github')}
                     >
                         <RxGithubLogo size={30} />
                         <Typography
