@@ -5,3 +5,6 @@ https://docs-qx6wony0a-supabase.vercel.app/docs
 
 
 ref id:ipottlzbftgmopyhakgl
+
+npx supabase gen types --lang=typescript --project-id "ipottlzbftgmopyhakgl" --schema public >src/types/supabase.ts        
+

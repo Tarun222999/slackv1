@@ -33,7 +33,7 @@ function AuthPage() {
 
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+
         setIsAuthenticating(true);
         const response = await registerWithEmail(values)
         const { data, error } = JSON.parse(response)
@@ -62,7 +62,7 @@ function AuthPage() {
             const {
                 data: { session },
             } = await supabaseBrowserClient.auth.getSession();
-            console.log(session)
+
             if (session) {
                 return router.push('/');
             }

@@ -10,3 +10,17 @@ export type User = {
     type: string | null
     workspaces: string[] | null
 }
+
+
+export type Workspace = {
+    channels: string[] | null;
+    created_at: string;
+    id: string;
+    image_url: string | null;
+    invite_code: string | null;
+    members: User[] | null;
+    name: string;
+    regulators: string[] | null;
+    slug: string;
+    super_admin: string;
+};
