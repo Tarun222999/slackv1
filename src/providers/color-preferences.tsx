@@ -1,5 +1,13 @@
 'use client';
-import { createContext, FC, ReactNode, useContext, useEffect, useState } from "react";
+
+import {
+    FC,
+    ReactNode,
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+} from 'react';
 
 type Colors = 'blue' | 'green' | '';
 
@@ -8,21 +16,20 @@ type ColorPrefrencesContext = {
     selectColor: (color: Colors) => void;
 };
 
-
-const ColorPrefrencesContext = createContext<ColorPrefrencesContext | undefined>(undefined)
-
-
+const ColorPrefrencesContext = createContext<
+    ColorPrefrencesContext | undefined
+>(undefined);
 
 export const useColorPrefrences = () => {
-    const context = useContext(ColorPrefrencesContext)
+    const context = useContext(ColorPrefrencesContext);
     if (!context) {
         throw new Error(
             'useColorPrefrences must be used within a ColorPrefrencesProvider'
         );
     }
-    return context
-}
 
+    return context;
+};
 
 export const ColorPrefrencesProvider: FC<{ children: ReactNode }> = ({
     children,
@@ -47,6 +54,8 @@ export const ColorPrefrencesProvider: FC<{ children: ReactNode }> = ({
         color,
         selectColor,
     };
+
+    console.log(value)
 
     if (!isMounted) return null;
 

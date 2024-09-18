@@ -4,6 +4,8 @@ import Sidebar from '@/components/sidebar'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import { Workspace as UserWorkspace } from '@/types/app';
+import InfoSection from '@/components/info-section'
+import Typography from '@/components/typography'
 async function Workspace({ params: { id } }: {
     params: {
         id: string
@@ -16,7 +18,7 @@ async function Workspace({ params: { id } }: {
 
 
 
-    const [userWorkspaceData, userWorkspaceError] = await getUserWorkSpaceData(userData.workspaces)
+    const [userWorkspaceData, userWorkspaceError] = await getUserWorkSpaceData(userData.workspaces!)
     const [currentWorkspaceData, currentWorkspaceError] = await getCurrentWorkspaceData(id)
 
     return (
@@ -25,9 +27,11 @@ async function Workspace({ params: { id } }: {
                 <Sidebar
                     currentWorkspaceData={currentWorkspaceData}
                     userData={userData}
-                    userWorkspacesData={userWorkspaceData as unknown as UserWorkspace[]}
+                    userWorksapcesData={userWorkspaceData as UserWorkspace[]}
 
                 />
+                <InfoSection />
+                <Typography variant='p' text='hello world' />
             </div>
 
             <div className='md:hidden block min-h-screen'>
