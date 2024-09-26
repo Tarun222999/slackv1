@@ -6,12 +6,14 @@ import React from 'react'
 import { Workspace as UserWorkspace } from '@/types/app';
 import InfoSection from '@/components/info-section'
 import Typography from '@/components/typography'
-async function Workspace({ params: { id } }: {
+import { getUserWorkspaceChannels } from '@/actions/get-user-workspace-channels'
+import NoDataScreen from '@/components/no-data-component'
+async function Workspace({ params: { workspaceId } }: {
     params: {
-        id: string
+        workspaceId: string
     }
 }) {
-    console.log(id)
+
 
     const userData = await getUserData()
     if (!userData) return redirect('/auth');
@@ -19,8 +21,9 @@ async function Workspace({ params: { id } }: {
 
 
     const [userWorkspaceData, userWorkspaceError] = await getUserWorkSpaceData(userData.workspaces!)
-    const [currentWorkspaceData, currentWorkspaceError] = await getCurrentWorkspaceData(id)
+    const [currentWorkspaceData, currentWorkspaceError] = await getCurrentWorkspaceData(workspaceId)
 
+    const userWorkspaceChannels = await getUserWorkspaceChannels(currentWorkspaceData.id, userData.id)
     return (
         <>
             <div className='hidden md:block'>
@@ -30,8 +33,17 @@ async function Workspace({ params: { id } }: {
                     userWorksapcesData={userWorkspaceData as UserWorkspace[]}
 
                 />
-                <InfoSection />
-                <Typography variant='p' text='hello world' />
+                <InfoSection
+                    currentWorkspaceData={currentWorkspaceData}
+                    userData={userData}
+                    userWorkspaceChannels={userWorkspaceChannels}
+                    currentChannelId=''
+                />
+                <NoDataScreen
+                    workspaceName={currentWorkspaceData.name}
+                    userId={userData.id}
+                    workspaceId={currentWorkspaceData.id}
+                />
             </div>
 
             <div className='md:hidden block min-h-screen'>
