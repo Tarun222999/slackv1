@@ -1,3 +1,4 @@
+'use server';
 import { supabaseServerClient } from "@/supabase/supabaseServer";
 import { User } from "@/types/app";
 

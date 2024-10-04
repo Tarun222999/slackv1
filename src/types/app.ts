@@ -35,3 +35,16 @@ export type Channel = {
     workspace_id: string;
     created_at: string;
 };
+
+
+export type Messages = {
+    channel_id: string;
+    content: string | null;
+    created_at: string;
+    file_url: string | null;
+    id: string;
+    is_deleted: boolean;
+    updated_at: string;
+    user_id: string;
+    workspace_id: string;
+};
